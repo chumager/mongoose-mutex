@@ -1,6 +1,6 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A mutex node.js module who uses mongoose for locking",
   "main": "index.js",
   "repository": "git@github.com:chumager/mongoose-mutex.git",
@@ -61,5 +61,9 @@
   },
   "dependencies": {
     "q": "^1.5.1"
-  }
+  },
+  "keywords": [
+    "mongoose",
+    "mutex"
+  ]
 }

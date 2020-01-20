@@ -1,6 +1,6 @@
 "use strict";
 const Q = require("q");
-function create({db, model = "Multer", collection = "__mutexes", clean = false, chainable = false, TTL = 0}) {
+function create({db, model = "Mutex", collection = "__mutexes", clean = false, chainable = false, TTL = 0}) {
   const schema = new db.Schema(
     {
       _id: {
