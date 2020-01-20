@@ -149,5 +149,5 @@ delay | 200 | the time between tries. Remember not to use a low value to avoid o
 
 ### Returns
 
-if the fn options is given then it returns an error if can't lock or the result (rejectcion) of the fn. If no fn options is given then it returns a promise fullyfiled with the free function to release the lock, remember to use this function only after your code releases the resorurces needed.
+if the fn options is given then it returns an error if can't lock or the result (rejectcion) of the fn. If no fn options is given then it returns a promise fullyfiled with the free function to release the lock, remember to use this function only after your code releases the resources needed.
 
