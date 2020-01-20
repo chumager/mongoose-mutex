@@ -1,0 +1,65 @@
+{
+  "name": "@chumager/mongoose-mutex",
+  "version": "1.0.0",
+  "description": "A mutex node.js module who uses mongoose for locking",
+  "main": "index.js",
+  "repository": "git@github.com:chumager/mongoose-mutex.git",
+  "author": "Juan Carlos Muñoz <jcmunoz@itdmovil.cl>",
+  "license": "MIT",
+  "private": false,
+  "peerDependencies": {
+    "mongoose": "^5.8.7"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "es2017": true,
+      "commonjs": true
+    },
+    "plugins": [
+      "prettier"
+    ],
+    "extends": [
+      "eslint:recommended"
+    ],
+    "rules": {
+      "no-console": 0,
+      "max-len": [
+        "error",
+        {
+          "code": 120,
+          "ignoreComments": true
+        }
+      ],
+      "prettier/prettier": [
+        "warn",
+        {
+          "printWidth": 120,
+          "tabWidth": 2,
+          "bracketSpacing": false
+        }
+      ]
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "ecmaFeatures": {
+        "jsx": true,
+        "es6": true
+      },
+      "sourceType": "script"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "mongoose": "^5.8.7",
+    "prettier": "^1.19.1"
+  },
+  "installConfig": {
+    "pnp": true
+  },
+  "dependencies": {
+    "q": "^1.5.1"
+  }
+}
