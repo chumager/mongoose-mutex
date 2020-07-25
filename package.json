@@ -7,7 +7,6 @@
   "homepage": "https://github.com/chumager/mongoose-mutex",
   "author": "Juan Carlos Muñoz <jcmunoz@itdmovil.cl>",
   "license": "MIT",
-  "private": false,
   "peerDependencies": {
     "mongoose": "^5.8.7"
   },
@@ -52,19 +51,27 @@
     }
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "mongoose": "^5.8.7",
-    "prettier": "^1.19.1"
+    "@yarnpkg/pnpify": "^2.1.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.5.0",
+    "eslint-plugin-mocha": "^7.0.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "mongoose": "^5.9.25",
+    "prettier": "^2.0.5"
   },
   "installConfig": {
     "pnp": true
   },
-  "dependencies": {
-    "q": "^1.5.1"
-  },
   "keywords": [
     "mongoose",
     "mutex"
-  ]
+  ],
+  "dependenciesMeta": {
+    "eslint": {
+      "unplugged": true
+    }
+  },
+  "dependencies": {
+    "@chumager/promise-helpers": "^1.0.0"
+  }
 }

@@ -1,3 +1,12 @@
+# locals
+.eslintrc.json
+Session.vim
+.vim
+.yarn/
+.yarn*
+.pnp.js
+yarn.lock
+
 # Logs
 logs
 *.log

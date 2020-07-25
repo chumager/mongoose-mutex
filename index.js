@@ -1,6 +1,12 @@
 "use strict";
-const Q = require("q");
+const {
+  functions: {delay, timeout}
+} = require("@chumager/promise-helpers");
+class localPromise extends Promise {}
+delay(localPromise);
+timeout(localPromise);
 function create({db, model = "Mutex", collection = "__mutexes", clean = false, chainable = false, TTL = 0}) {
+  //base schema
   const schema = new db.Schema(
     {
       _id: {
@@ -11,6 +17,7 @@ function create({db, model = "Mutex", collection = "__mutexes", clean = false, c
       collection
     }
   );
+  //in case of using TTL
   if (TTL) {
     schema.index(
       {
@@ -29,38 +36,49 @@ function create({db, model = "Mutex", collection = "__mutexes", clean = false, c
       }
     });
   }
+  //model creation
   const Model = db.model(model, schema);
+  //delete Mutex on start by setting
   let cleaned;
   if (clean) cleaned = Model.deleteMany();
-  const start = Date.now();
+  //returning object
   let res = {
-    lock({lockName = "mutex", fn, maxTries = 1, timeout = 0, delay = 200}) {
+    //function for locking mutex
+    lock({lockName = "mutex", fn, maxTries = 1, timeout, delay = 100}) {
+      const start = Date.now();
+      //stop helps to stop lock loop it timeout.
       let stop = false;
+      //release function
       const free = () => Model.deleteOne({_id: lockName});
       let lock = [...Array(maxTries).keys()].reduce((p, id) => {
+        //reverse logic, assuming catch
         return p.catch(() => {
+          //if first try just create
           if (id === 0) {
             return Model.create({_id: lockName});
           }
-          return Q.delay(delay).then(() => {
+          //id not first wait until next attempt
+          return localPromise.delay(delay).then(() => {
             return !stop && Model.create({_id: lockName});
           });
         });
-      }, Q.reject());
-      lock = timeout ? Q(lock).timeout(timeout) : lock;
-      return lock
-        .then(() => {
-          if (fn) return Q(fn()).finally(free);
+      }, localPromise.reject());
+      //in case of timeout
+      lock = timeout ? lock.timeout(timeout) : lock;
+      return lock.then(
+        () => {
+          if (fn) return localPromise.resolve(fn()).finally(free);
           return free;
-        })
-        .catch(err => {
+        },
+        err => {
           err.timeout = Date.now() - start;
           stop = true;
-          return Q.reject(err);
-        });
+          return localPromise.reject(err);
+        }
+      );
     }
   };
-  return chainable ? Q(cleaned).then(() => res) : res;
+  return chainable ? localPromise(cleaned).then(() => res) : res;
 }
 
 module.exports = create;
