@@ -55,7 +55,11 @@ function create({db, model = "Mutex", collection = "__mutexes", clean = false, c
         return p.catch(() => {
           //if first try just create
           if (id === 0) {
-            return Model.create({_id: lockName});
+            return Model.bulkWrite([
+              {
+                insertOne: {_id: lockName}
+              }
+            ]);
           }
           //id not first wait until next attempt
           return localPromise.delay(delay).then(() => {
