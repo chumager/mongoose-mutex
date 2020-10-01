@@ -54,16 +54,23 @@ function create({db, model = "Mutex", collection = "__mutexes", clean = false, c
         //reverse logic, assuming catch
         return p.catch(() => {
           //if first try just create
-          if (id === 0) {
-            return Model.bulkWrite([
-              {
-                insertOne: {_id: lockName}
+          const bulk = [
+            {
+              insertOne: {
+                document: {_id: lockName}
               }
-            ]);
+            }
+          ];
+          const bulkOptions = {
+            w: "majority",
+            j: true
+          };
+          if (id === 0) {
+            return Model.bulkWrite(bulk, bulkOptions);
           }
           //id not first wait until next attempt
           return localPromise.delay(delay).then(() => {
-            return !stop && Model.create({_id: lockName});
+            return !stop && Model.bulkWrite(bulk, bulkOptions);
           });
         });
       }, localPromise.reject());
