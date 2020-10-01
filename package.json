@@ -1,6 +1,6 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A mutex node.js module who uses mongoose for locking",
   "main": "index.js",
   "repository": "git@github.com:chumager/mongoose-mutex.git",
@@ -10,6 +10,7 @@
   "peerDependencies": {
     "mongoose": "^5.8.7"
   },
+  "files": [],
   "eslintConfig": {
     "root": true,
     "env": {

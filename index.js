@@ -73,7 +73,12 @@ function create({db, model = "Mutex", collection = "__mutexes", clean = false, c
         err => {
           err.timeout = Date.now() - start;
           stop = true;
-          return localPromise.reject(err);
+          if (/E11000/.test(err.message)) {
+            const error = new Error(`unable to acquire lock ${lockName}`);
+            error.name = "MutexLockError";
+            throw error;
+          }
+          throw err;
         }
       );
     }
