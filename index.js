@@ -14,7 +14,8 @@ function create({db, model = "Mutex", collection = "__mutexes", clean = false, c
       }
     },
     {
-      collection
+      collection,
+      validateBeforeSave: false
     }
   );
   //in case of using TTL

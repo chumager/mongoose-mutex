@@ -1,12 +1,16 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A mutex node.js module who uses mongoose for locking",
   "main": "index.js",
   "repository": "git@github.com:chumager/mongoose-mutex.git",
   "homepage": "https://github.com/chumager/mongoose-mutex",
   "author": "Juan Carlos Muñoz <jcmunoz@itdmovil.cl>",
   "license": "MIT",
+  "scripts": {
+    "upgrade": "yarn upgrade-interactive",
+    "sdk": "yarn dlx @yarnpkg/pnpify --sdk vim"
+  },
   "peerDependencies": {
     "mongoose": "^5.10.5"
   },
