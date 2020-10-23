@@ -85,7 +85,7 @@ function create({db, model = "Mutex", collection = "__mutexes", clean = false, c
         err => {
           err.timeout = Date.now() - start;
           stop = true;
-          if (/E11000/.test(err.message)) {
+          if (/E11000/.test(err.message) || err.name === "ValidationError") {
             const error = new Error(`unable to acquire lock ${lockName}`);
             error.name = "MutexLockError";
             throw error;
