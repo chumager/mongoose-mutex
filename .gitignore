@@ -4,7 +4,7 @@ Session.vim
 .vim
 .yarn/
 .yarn*
-.pnp.js
+.pnp.cjs
 yarn.lock
 
 # Logs
