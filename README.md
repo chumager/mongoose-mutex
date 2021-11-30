@@ -13,30 +13,26 @@ yarn add @chumager/mongoose-mutex
 
 ### General Usage.
 #### Mutex
-Only one process (worker), can take the lock and if a process try to lock and is taken will exit.
-In this example the lock take a function as parameter so there is no need to unlock. There is a 50% chances the function will fail.
+Only one process (worker), can take the lock, if a process try to lock and is taken will exit.
+In this example the lock take a function as parameter so there is no need to unlock. There is a 50% chance function will fail.
 ```javascript
-//workers needed for test multi process locking
 import {Worker, isMainThread, threadId} from "worker_threads";
 
+//to support Promise.delay()
 import {promiseHelpers} from "@chumager/promise-helpers";
 promiseHelpers();
 
-import MutexSchema from "./src/index.js";
+import MutexSchema from "../src/index.js";
 
+//es6 doesn't support native __filename
 import {URL} from "url";
 const __filename = new URL("", import.meta.url).pathname;
 
+//no mongoose, no mutex 😬
 import db from "mongoose";
+
 function createWorker() {
   const worker = new Worker(__filename, {env: process.env});
-  worker.on("message", ({type, data}) => {
-    switch (type) {
-      case "Log":
-        process.stderr.write(data);
-        break;
-    }
-  });
   worker.on("error", err => {
     console.log(Date.now(), "worker error", worker.threadId, err.message);
   });
@@ -46,36 +42,28 @@ async function main() {
     [...Array(20).keys()].forEach(() => createWorker());
   } else {
     let delay;
-    try {
-      console.log(Date.now(), "start", threadId);
+    console.log(Date.now(), "start", threadId);
 
-      await db.connect(
-        // eslint-disable-next-line max-len
-        "mongodb://127.0.0.1:27018,127.0.0.1:27019,127.0.0.1:27020/test?replicaSet=rs0&retryWrites=true&readPreference=secondaryPreferred"
-      );
-      const Mutex = db.model("Mutex", MutexSchema(db));
-      //await Mutex.ensureIndexes();
-      let start;
-      delay = Math.random() * 1e4;
-      console.log(Date.now(), "taken", threadId, await Mutex.isLocked("lock1"));
-      const unlock = await Mutex.waitLock({
+    await db.connect("mongodb://127.0.0.1:27018,127.0.0.1:27019,127.0.0.1:27020/test?replicaSet=rs0");
+    const Mutex = db.model("Mutex", MutexSchema(db));
+    await Mutex.ensureIndexes(); //to avoid test db problems and a good practice
+    let start;
+    delay = Math.round(Math.random() * 1e3);
+    try {
+      const result = await Mutex.lock({
         lockName: "lock1",
-        /*
-         *async fn() {
-         *  console.log(Date.now(), "locked", threadId, delay);
-         *  start = Date.now();
-         *  await Promise.delay(delay);
-         *},
-         */
-        timeout: 10000
+        async fn() {
+          start = Date.now();
+          console.log(Date.now(), "locked", threadId, delay);
+          if (Math.random() > 0.5) throw new Error("function fails");
+          await Promise.delay(delay); //simulate some execution time.
+          return delay * 2; //hard math processing
+        }
       });
-      console.log(Date.now(), "locked", threadId, delay);
-      start = Date.now();
-      //await Promise.delay(delay);
-      await unlock();
-      console.log(Date.now(), "done", threadId, Date.now() - start);
+      console.log(Date.now(), "done", threadId, result, Date.now() - start);
     } catch (e) {
-      console.log(Date.now(), "error", threadId, delay, e.code, e.message);
+      if (e.code === "LOCK_TAKEN") console.log(Date.now(), "lock taken, bye", threadId);
+      else console.log(Date.now(), "error", threadId, delay, e.message);
     } finally {
       await db.disconnect();
     }
