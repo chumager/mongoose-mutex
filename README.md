@@ -57,8 +57,9 @@ try {
   //await is only needed if you'll disconnect to 
   //the db any time soon to avoid trying to reach the db when disconnected;
 }catch(e){
-  //check for locking error
-  if(e.code !== "LOCK_TAKEN") console.error(e);
+  //release the lock
+  if (typeof unlock === "function") await unlock();
+  console.log(Date.now(), "error", threadId, delay, e.message);
 }
 
 ```
@@ -311,17 +312,18 @@ I don't need a mutex (for now), what I needed was a way to avoid other processes
 
 ## Mutex.
 
-the Mutex functions allows to define the mongoose model to use to lock.
+The Mutex functions allows to define the mongoose model to use to lock.
 
 ### Options
+.lock()
 
-Option | Default | Definition
------- | ------- | ----------
-db | | the mongoose instance to connect to and create the model.
-model | "Mutex" | the model name.
-collection | "__mutexes" | the collection name, remember to aavoit using an already existing collection.
-clean | false | delete the collection after the Mutex model is created.
-chainable | false | if true it chains the clean and then return the object with the lock function.
+Option | Type | Default | Required | Definition
+------ | ---- | ------- | -------- | ----------
+lockName | String | undefined | yes | the name of the lock, same locking logic, uses the same lockName.
+description | String | none | no | add a description to the lock document in the db, just for debug.
+metadata | Object | undefined | no | an object that allows to inserta any data you want to the lock.
+fn | Function | undefined | no | the function to be executed after lock and unlock after complete.
+
 TTL | | if the value exists then it creates the collection with a TTL index for expire field and then define expire as Date with a default of `Date.now() + TTL * 1000`
 
 ### Returns.
