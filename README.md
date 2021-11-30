@@ -329,8 +329,9 @@ options.TTL | Number | 60 | no | Number of seconds to wait until the lock is rel
 ##### Returns.
 If there is a fn key in options, then the result will be the fulfilled o rejected value of this function.
 If there is no fn key, an unlock function will be returned.
-In case there is a lock error, it will rejected with an error with core equals to "LOCK_TAKEN"
+In case there is a lock error, it will reject with an error with core equals to "LOCK_TAKEN"
 #### .waitLock()
+WaitLock function only allows one lock simultaneously and waits until lock is released or timeout is accomplished.
 
 Option | Type | Default | Required | Definition
 ------ | ---- | ------- | -------- | ----------
@@ -340,8 +341,13 @@ options.description | String | undefined | no | add a description to the lock do
 options.metadata | Object | undefined | no | an object that allows to inserta any data you want to the lock.
 options.fn | Function | undefined | no | the function to be executed after lock and unlock after complete.
 options.TTL | Number | 60 | no | Number of seconds to wait until the lock is released, uses the mongodb TTL index logic. If you expect your code last more than 60 seconds then you must change this value, otherwise other process will take the lock and eventually the first one will release the second one.
+options.timeout | Number | undefined | no | If the timeout is defined and the lock is taken, waits until timeout ms to take the lock, otherwise reject.
 
 ##### Returns.
 If there is a fn key in options, then the result will be the fulfilled o rejected value of this function.
 If there is no fn key, an unlock function will be returned.
-In case there is a lock error, it will rejected with an error with core equals to "LOCK_TAKEN"
+In case there is a timeout, it will reject with an error with core equals to "TIMEOUT"
+#### .isLocked(lockName)
+
+##### Returns.
+It return if the lock is taken or not, but you have to realize the lock could be taken or released microseconds before it changes, so use it carefully.
