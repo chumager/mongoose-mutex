@@ -314,36 +314,34 @@ I don't need a mutex (for now), what I needed was a way to avoid other processes
 
 The Mutex functions allows to define the mongoose model to use to lock.
 
-### Options
+### Static Model Functions
 #### .lock()
-
+Lock function only allows one lock simultaneously and rejects if is taken.
 Option | Type | Default | Required | Definition
 ------ | ---- | ------- | -------- | ----------
 options | Object | {TTL: 60} | yes | the options object.
 options.lockName | String | undefined | yes | the name of the lock, same locking logic, uses the same lockName.
-options.description | String | none | no | add a description to the lock document in the db, just for debug.
+options.description | String | undefined | no | add a description to the lock document in the db, just for debug.
 options.metadata | Object | undefined | no | an object that allows to inserta any data you want to the lock.
 options.fn | Function | undefined | no | the function to be executed after lock and unlock after complete.
 options.TTL | Number | 60 | no | Number of seconds to wait until the lock is released, uses the mongodb TTL index logic. If you expect your code last more than 60 seconds then you must change this value, otherwise other process will take the lock and eventually the first one will release the second one.
 
 ##### Returns.
-If there is a fn 
+If there is a fn key in options, then the result will be the fulfilled o rejected value of this function.
+If there is no fn key, an unlock function will be returned.
+In case there is a lock error, it will rejected with an error with core equals to "LOCK_TAKEN"
+#### .waitLock()
 
-## lock.
+Option | Type | Default | Required | Definition
+------ | ---- | ------- | -------- | ----------
+options | Object | {TTL: 60} | yes | the options object.
+options.lockName | String | undefined | yes | the name of the lock, same locking logic, uses the same lockName.
+options.description | String | undefined | no | add a description to the lock document in the db, just for debug.
+options.metadata | Object | undefined | no | an object that allows to inserta any data you want to the lock.
+options.fn | Function | undefined | no | the function to be executed after lock and unlock after complete.
+options.TTL | Number | 60 | no | Number of seconds to wait until the lock is released, uses the mongodb TTL index logic. If you expect your code last more than 60 seconds then you must change this value, otherwise other process will take the lock and eventually the first one will release the second one.
 
-the locking function.
-
-### Options
-
-Option | Default | Definition
------- | ------- | ----------
-lockName | "mutex" | the name of the mutex, this allows you to use several mutex with the same collection.
-fn | | if defined then it's called after locking and chained with a final free call.
-maxTries | 1 | how many tries before reject the locking, it's one because I needed that way, yo can define `Infinity` it you want to try forever.
-timeout | 0 | if greather than 0 then it fails if the time trying to lock it's above that, beware that this timeout is called after the locking process starts and in a local db service the process take about 25 ms, so values below that may not work.
-delay | 200 | the time between tries. Remember not to use a low value to avoid over use of resources.
-
-### Returns
-
-if the fn options is given then it returns an error if can't lock or the result (rejectcion) of the fn. If no fn options is given then it returns a promise fullyfiled with the free function to release the lock, remember to use this function only after your code releases the resources needed.
-
+##### Returns.
+If there is a fn key in options, then the result will be the fulfilled o rejected value of this function.
+If there is no fn key, an unlock function will be returned.
+In case there is a lock error, it will rejected with an error with core equals to "LOCK_TAKEN"
