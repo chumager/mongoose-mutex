@@ -350,7 +350,7 @@ In case there is a timeout, it will reject with an error with core equals to "TI
 #### .isLocked(lockName)
 
 ##### Returns.
-It return if the lock is taken or not, but you have to realize the lock could be taken or released microseconds before it changes, so use it carefully.
+It return if the lock is taken or not, but you have to realize the lock could be taken or released microseconds after it returns, , so use it carefully.
 
 ## Examples (not code).
 - If you have a multi process (workers) service and all want to do one task, you can use ```.lock()``` so only one process will do the task.
@@ -358,4 +358,5 @@ It return if the lock is taken or not, but you have to realize the lock could be
 - If you need an infinite queue, you can use ```.waitLock()``` so all the task will be serialized.
   - A service only allows one request at a time.
 ## Caveats.
-- ```.lock()``` and ```.waitLock()``` uses the unique mongodb error *code 11000* to acknowledge if a lock is taken, is you use some unique validation plugin, it could implies the error will not be catched.
+- ```.lock()``` and ```.waitLock()``` uses the **unique mongodb error code 11000** to acknowledge if a lock is taken, is you use some unique validation plugin, it could implies the error will not be caught.
+- The timeout uses microtasks and event loop to reject, if you have a lot of sync operations in between (maybe use of then/catch for lock/waitLock) your timeout could be very past the value.
