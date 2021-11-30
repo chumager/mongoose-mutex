@@ -15,7 +15,7 @@ yarn add @chumager/mongoose-mutex
 
 ## Use
 ### Basics.
-
+#### With function parameter.
 ```javascript
 import MutexSchema from "@chumager/mongoose-mutex";
 //use mongoose to create the model.
@@ -25,8 +25,39 @@ await Mutex.ensureIndexes();
 
 //lock
 try {
-await Mutex.lock()
+  const result = await Mutex.lock({
+    lockName: "lock", //required
+    async fn() {
+      //function definition with some data returned
+    }
+  });
+  console.log("result!!! 😬", result);
+}catch(e){
+  //check for locking error
+  if(e.code !== "LOCK_TAKEN") console.error(e);
 }
+
+```
+#### Without function parameter.
+```javascript
+import MutexSchema from "@chumager/mongoose-mutex";
+//use mongoose to create the model.
+const Mutex = mongoose.model("Mutex", MutexSchema);
+//ensure indexes in case you need it.
+await Mutex.ensureIndexes();
+
+//lock
+try {
+  const unlock = await Mutex.lock({
+    lockName: "lock" //required
+  });
+  //do your stuff...
+  await unlock(); //await is only needed if you'll disconnect to the db any time soon to avoid trying to reach the db when disconnected;
+}catch(e){
+  //check for locking error
+  if(e.code !== "LOCK_TAKEN") console.error(e);
+}
+
 ```
 
 ### General Usage.
