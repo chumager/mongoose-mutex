@@ -4,6 +4,7 @@ import {Worker, isMainThread, threadId} from "worker_threads";
 import {promiseHelpers} from "@chumager/promise-helpers";
 promiseHelpers();
 
+//the mutex schema
 import MutexSchema from "../src/index.js";
 
 //es6 doesn't support native __filename

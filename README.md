@@ -1,18 +1,36 @@
 # mongoose-mutex
 A mutex node.js module who uses mongoose for locking
 
-After searching in npm and realize that the only module for mutex with mongoose was depretated I decided to do one for myself.
-The module it's very simple yet powerfull, it uses the uniq index for `_id` and TTL index to prevent mutex to stay locked forever.
+## Why
+After searching in npm and realize that the only module for mutex with mongoose was deprecated I decided to do one for myself.
+The module it's very simple yet powerful, it uses the unique index for `_id` and TTL index to prevent mutex to stay locked forever.
 
 ## Install
-```javascript
+
+```sh
+pnpm add @chumager/mongoose-mutex
+#or
 yarn add @chumager/mongoose-mutex
 ```
 
 ## Use
+### Basics.
+
+```javascript
+import MutexSchema from "@chumager/mongoose-mutex";
+//use mongoose to create the model.
+const Mutex = mongoose.model("Mutex", MutexSchema);
+//ensure indexes in case you need it.
+await Mutex.ensureIndexes();
+
+//lock
+try {
+await Mutex.lock()
+}
+```
 
 ### General Usage.
-#### Mutex
+#### Exclusive lock with inner function
 Only one process (worker), can take the lock, if a process try to lock and is taken will exit.
 In this example the lock take a function as parameter so there is no need to unlock. There is a 50% chance function will fail.
 ```javascript
@@ -22,6 +40,7 @@ import {Worker, isMainThread, threadId} from "worker_threads";
 import {promiseHelpers} from "@chumager/promise-helpers";
 promiseHelpers();
 
+//the mutex schema
 import MutexSchema from "../src/index.js";
 
 //es6 doesn't support native __filename
