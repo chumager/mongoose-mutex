@@ -1,79 +1,43 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "1.0.11",
+  "version": "2.0.0",
   "description": "A mutex node.js module who uses mongoose for locking",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "src/index.js",
   "repository": "git@github.com:chumager/mongoose-mutex.git",
   "homepage": "https://github.com/chumager/mongoose-mutex",
   "author": "Juan Carlos Muñoz <jcmunoz@itdmovil.cl>",
   "license": "MIT",
   "scripts": {
-    "upgrade": "yarn upgrade-interactive",
-    "sdk": "yarn dlx @yarnpkg/pnpify --sdk vim"
+    "build": "gulp",
+    "test": "node test.js"
   },
   "peerDependencies": {
     "mongoose": "*"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "es2017": true,
-      "commonjs": true
-    },
-    "plugins": [
-      "prettier"
-    ],
-    "extends": [
-      "eslint:recommended"
-    ],
-    "rules": {
-      "no-console": 0,
-      "max-len": [
-        "error",
-        {
-          "code": 120,
-          "ignoreComments": true
-        }
-      ],
-      "prettier/prettier": [
-        "warn",
-        {
-          "printWidth": 120,
-          "tabWidth": 2,
-          "bracketSpacing": false
-        }
-      ]
-    },
-    "parserOptions": {
-      "ecmaVersion": 2018,
-      "ecmaFeatures": {
-        "jsx": true,
-        "es6": true
-      },
-      "sourceType": "script"
-    }
-  },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-mocha": "^8.2.0",
-    "eslint-plugin-prettier": "^3.4.1",
-    "prettier": "^2.4.1"
-  },
-  "installConfig": {
-    "pnp": true
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "del": "^6.0.0",
+    "eslint": "^8.3.0",
+    "eslint-plugin-mocha": "^9.0.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-debug": "^4.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-terser": "^2.1.0",
+    "mongoose": "^6.0.14",
+    "prettier": "^2.5.0"
   },
   "keywords": [
     "mongoose",
-    "mutex"
+    "mutex",
+    "lock"
   ],
-  "dependenciesMeta": {
-    "eslint": {
-      "unplugged": true
-    }
-  },
   "dependencies": {
-    "@chumager/promise-helpers": "^2.0.0"
-  }
+    "@chumager/promise-helpers": "^2.1.0"
+  },
+  "packageManager": "pnpm@6.23.2"
 }
