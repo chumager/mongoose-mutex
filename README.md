@@ -315,20 +315,19 @@ I don't need a mutex (for now), what I needed was a way to avoid other processes
 The Mutex functions allows to define the mongoose model to use to lock.
 
 ### Options
-.lock()
+#### .lock()
 
 Option | Type | Default | Required | Definition
 ------ | ---- | ------- | -------- | ----------
-lockName | String | undefined | yes | the name of the lock, same locking logic, uses the same lockName.
-description | String | none | no | add a description to the lock document in the db, just for debug.
-metadata | Object | undefined | no | an object that allows to inserta any data you want to the lock.
-fn | Function | undefined | no | the function to be executed after lock and unlock after complete.
+options | Object | {TTL: 60} | yes | the options object.
+options.lockName | String | undefined | yes | the name of the lock, same locking logic, uses the same lockName.
+options.description | String | none | no | add a description to the lock document in the db, just for debug.
+options.metadata | Object | undefined | no | an object that allows to inserta any data you want to the lock.
+options.fn | Function | undefined | no | the function to be executed after lock and unlock after complete.
+options.TTL | Number | 60 | no | Number of seconds to wait until the lock is released, uses the mongodb TTL index logic. If you expect your code last more than 60 seconds then you must change this value, otherwise other process will take the lock and eventually the first one will release the second one.
 
-TTL | | if the value exists then it creates the collection with a TTL index for expire field and then define expire as Date with a default of `Date.now() + TTL * 1000`
-
-### Returns.
-
-In case of chainable options equals false, the it returns an object with the lock function, If it's true then returns a Promise with the same object.
+##### Returns.
+If there is a fn 
 
 ## lock.
 
