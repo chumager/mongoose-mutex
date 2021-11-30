@@ -97,9 +97,8 @@ function create(db) {
         })
         .then(() => {
           if (fn)
-            return fn().then(async res => {
+            return fn().finally(async () => {
               await unlock();
-              return res;
             });
           return unlock;
         });
