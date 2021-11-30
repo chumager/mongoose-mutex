@@ -52,7 +52,9 @@ try {
     lockName: "lock" //required
   });
   //do your stuff...
-  await unlock(); //await is only needed if you'll disconnect to the db any time soon to avoid trying to reach the db when disconnected;
+  await unlock(); 
+  //await is only needed if you'll disconnect to 
+  //the db any time soon to avoid trying to reach the db when disconnected;
 }catch(e){
   //check for locking error
   if(e.code !== "LOCK_TAKEN") console.error(e);
