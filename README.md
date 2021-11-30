@@ -354,5 +354,6 @@ It return if the lock is taken or not, but you have to realize the lock could be
 
 ### Examples (not code).
 - If you have a multi process (workers) service and all want to do one task, you can use ```.lock()``` so only one process will do the task.
-    - multiprocess service who uses ```Model.ensureIndexes()```
-- if you need an infinite queue, you can use ```.waitLock()``` so all the task will be serialized.
+  - Multiprocess service who uses ```Model.ensureIndexes()```
+- If you need an infinite queue, you can use ```.waitLock()``` so all the task will be serialized.
+  - A service only allows one request at a time.
