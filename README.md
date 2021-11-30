@@ -31,6 +31,7 @@ try {
       //function definition with some data returned
     }
   });
+  //there is no need to unlock, the module does it for you...
   console.log("result!!! 😬", result);
 }catch(e){
   //check for locking error
@@ -103,7 +104,7 @@ async function main() {
     delay = Math.round(Math.random() * 1e3);
     try {
       const result = await Mutex.lock({
-        lockName: "lock1",
+        lockName: "lock1", //required
         async fn() {
           start = Date.now();
           console.log(Date.now(), "locked", threadId, delay);
