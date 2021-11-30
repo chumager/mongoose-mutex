@@ -358,4 +358,4 @@ It return if the lock is taken or not, but you have to realize the lock could be
 - If you need an infinite queue, you can use ```.waitLock()``` so all the task will be serialized.
   - A service only allows one request at a time.
 ## Caveats.
-- ```.lock()``` and ```.waitLock()``` uses the unique mongodb error to acknowledge if a lock is taken, is you use some unique validation plugin, it could implies the error will not be catched.
+- ```.lock()``` and ```.waitLock()``` uses the unique mongodb error *code 11000* to acknowledge if a lock is taken, is you use some unique validation plugin, it could implies the error will not be catched.
