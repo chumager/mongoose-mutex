@@ -1,6 +1,6 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A mutex node.js module who uses mongoose for locking",
   "type": "module",
   "main": "dist/index.cjs",
@@ -13,6 +13,10 @@
     "build": "gulp",
     "test": "node test.js"
   },
+  "files": [
+    "dist/index.cjs",
+    "src/index.js"
+  ],
   "peerDependencies": {
     "mongoose": "*"
   },
