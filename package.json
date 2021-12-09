@@ -1,6 +1,6 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A mutex node.js module who uses mongoose for locking",
   "type": "module",
   "main": "dist/index.cjs",
@@ -18,7 +18,7 @@
     "src/index.js"
   ],
   "peerDependencies": {
-    "mongoose": "*"
+    "mongoose": ">5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -41,7 +41,7 @@
     "lock"
   ],
   "dependencies": {
-    "@chumager/promise-helpers": "^2.1.0"
+    "@chumager/promise-helpers": "^2.1.2"
   },
   "packageManager": "pnpm@6.23.2"
 }

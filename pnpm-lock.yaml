@@ -3,7 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@babel/core': ^7.16.0
   '@babel/preset-env': ^7.16.4
-  '@chumager/promise-helpers': ^2.1.0
+  '@chumager/promise-helpers': ^2.1.2
   del: ^6.0.0
   eslint: ^8.3.0
   eslint-plugin-mocha: ^9.0.0
@@ -17,7 +17,7 @@ specifiers:
   prettier: ^2.5.0
 
 dependencies:
-  '@chumager/promise-helpers': 2.1.0
+  '@chumager/promise-helpers': 2.1.2
 
 devDependencies:
   '@babel/core': 7.16.0
@@ -1149,9 +1149,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@chumager/promise-helpers/2.1.0:
-    resolution: {integrity: sha512-ZRh7/GNF1+X366yp4CvN7rqZug5xvb7Hm4EOBeVSiMej5JnY8D96kHOwxljzpUP1dOs/N3RtTAttoZKq/NdcvQ==}
-    requiresBuild: true
+  /@chumager/promise-helpers/2.1.2:
+    resolution: {integrity: sha512-raL1/QaEwZP3Is6E5x/etgLZiMt24JSVdU3nvPQXS2EQpfCh0Z3QgxU8ymF8qdy26Hd8hsDm359PPLQPaitLhQ==}
     dev: false
 
   /@eslint/eslintrc/1.0.4:
