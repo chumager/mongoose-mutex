@@ -1,10 +1,16 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A mutex node.js module who uses mongoose for locking",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "src/index.js",
+  "exports": {
+    ".": { 
+      "import": "./src/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "repository": "git@github.com:chumager/mongoose-mutex.git",
   "homepage": "https://github.com/chumager/mongoose-mutex",
   "author": "Juan Carlos Muñoz <jcmunoz@itdmovil.cl>",
