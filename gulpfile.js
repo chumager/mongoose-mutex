@@ -1,13 +1,13 @@
 import gulp from "gulp";
 const {src, dest, parallel, watch: w} = gulp;
 import terser from "gulp-terser";
-import del from "del";
+import {deleteSync} from "del";
 import debug from "gulp-debug";
 import babel from "gulp-babel";
 import rename from "gulp-rename";
 import path from "path";
 const Path = ["src/**/*.js"];
-del.sync("dist/*");
+deleteSync("dist/*");
 function transpile(path = Path) {
   if (typeof path === "function") path = Path;
   return src(path, {base: "src"})
@@ -31,7 +31,7 @@ function watch() {
     const filePathFromSrc = path.relative(path.resolve("src"), filePath);
     const destFilePath = path.resolve("dist", filePathFromSrc);
     console.log("Eliminando", destFilePath);
-    del.sync(destFilePath);
+    deleteSync(destFilePath);
   });
   return watcher;
 }

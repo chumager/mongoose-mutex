@@ -1,12 +1,12 @@
 {
   "name": "@chumager/mongoose-mutex",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A mutex node.js module who uses mongoose for locking",
   "type": "module",
   "main": "dist/index.cjs",
   "module": "src/index.js",
   "exports": {
-    ".": { 
+    ".": {
       "import": "./src/index.js",
       "require": "./dist/index.cjs"
     }
@@ -24,22 +24,22 @@
     "src/index.js"
   ],
   "peerDependencies": {
-    "mongoose": ">5.0.0"
+    "mongoose": ">=7.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
-    "del": "^6.0.0",
-    "eslint": "^8.3.0",
-    "eslint-plugin-mocha": "^9.0.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "@babel/core": "^7.22.6",
+    "@babel/preset-env": "^7.22.6",
+    "del": "^7.0.0",
+    "eslint": "^8.44.0",
+    "eslint-plugin-mocha": "^10.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-debug": "^4.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-terser": "^2.1.0",
-    "mongoose": "^6.0.14",
-    "prettier": "^2.5.0"
+    "mongoose": "^7.3.1",
+    "prettier": "^2.8.8"
   },
   "keywords": [
     "mongoose",

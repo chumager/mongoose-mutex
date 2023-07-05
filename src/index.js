@@ -34,7 +34,7 @@ function create(db) {
         expires: Date.now() + TTL * 1e3
       });
       async function unlock() {
-        await lockDoc.remove();
+        await lockDoc.deleteOne();
         return;
       }
       try {
@@ -74,7 +74,7 @@ function create(db) {
         }
       ]);
       async function unlock() {
-        await lockDoc.remove();
+        await lockDoc.deleteOne();
         return;
       }
       async function attempt() {
