@@ -54,7 +54,7 @@ try {
   });
   //do your stuff...
   await unlock(); 
-  //await is only needed if you'll disconnect to 
+  //await is only needed if you'll disconnect to
   //the db any time soon to avoid trying to reach the db when disconnected;
 }catch(e){
   //release the lock
