@@ -1,24 +1,31 @@
-import {once} from "events";
+import {once} from "node:events";
 import {functions} from "@chumager/promise-helpers";
+
 const {timeout} = functions;
 class localPromise extends Promise {}
 timeout(localPromise);
 
-function create(db) {
-  const Mutex = new db.Schema({
-    _id: {
-      type: String
+function create(db, {description = {}, metadata = {}, extraFields = {}, options = {}} = {}) {
+  const Mutex = new db.Schema(
+    {
+      _id: {
+        type: String
+      },
+      description: {
+        type: String,
+        ...description
+      },
+      metadata: {
+        type: Object,
+        metadata
+      },
+      expires: {
+        type: Date
+      },
+      ...extraFields
     },
-    description: {
-      type: String
-    },
-    metadata: {
-      type: Object
-    },
-    expires: {
-      type: Date
-    }
-  });
+    options
+  );
   Mutex.index({expires: 1}, {expireAfterSeconds: 0});
   Mutex.static({
     async lock({lockName, description, metadata, fn, TTL = 60}) {
@@ -81,7 +88,7 @@ function create(db) {
         try {
           await lockDoc.save();
           await watch.close();
-        } catch (e) {
+        } catch (_e) {
           await once(watch, "change");
           return attempt();
         }
